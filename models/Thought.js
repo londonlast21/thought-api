@@ -24,6 +24,7 @@ const ThoughtSchema = new Schema(
         default: () => new Types.ObjectId,
 
     },
+    
    
     // replies: [
     //     ReplySchema

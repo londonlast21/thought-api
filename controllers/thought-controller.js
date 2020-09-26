@@ -15,7 +15,7 @@ const thoughtController = {
     // GET thought by Id /api/thoughts/thoughtid
 
     getThoughtById({ params }, res) {
-        User.findOne({ _id: params.id })
+        Thought.findOne({ _id: params.thoughtId })
             .then(dbThoughtData => {
                 // if no user found send 404
                 if (!dbThoughtData) {
