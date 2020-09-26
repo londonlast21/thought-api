@@ -13,7 +13,6 @@ const thoughtController = {
     },
 
     // GET thought by Id /api/thoughts/thoughtid
-
     getThoughtById({ params }, res) {
         Thought.findOne({ _id: params.thoughtId })
             .then(dbThoughtData => {
@@ -32,7 +31,7 @@ const thoughtController = {
     },
 
     
-    // add thought from user POST api/thoughts/userid
+    // add thought from user POST api/thoughts/
     addThought({ params, body }, res) {
         console.log(body);
         Thought.create(body)
@@ -41,7 +40,36 @@ const thoughtController = {
 
     },
 
-    // remove thought user DELETE api/thoughts/userid
+    // add reaction PUT api/thoughts/thoughtId
+    addReaction({ params, body }, res) {
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId },
+            { $push: { replies: body } },
+            { new: true }
+        )
+            .then(dbThoughtData => {
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: 'No thought found with this ID' });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch(err => res.json(err));
+    },
+
+    // remove DELETE reaction api/thoughts/reactionId
+    removeReaction({ params }, res) {
+        Thoughts.findOneAndUpdate(
+            { _id: params.thoughtId },
+            { $pull: { reactions: { reactionId: params.reactionId } } },
+            { new: true }
+        )
+        .then(dbThoughtData => res.json(dbThoughtData))
+        .catch(err => res.json(err));
+    },
+
+
+    // remove thought user DELETE api/thoughts/thoughtid
     deleteThought({ params }, res) {
         console.log('hitremove');
         Thought.findOneAndDelete({ _id: params.thoughtId })
@@ -78,6 +106,9 @@ const thoughtController = {
             })
             .catch(err => res.status(400).json(err));
     }
+
+    
 };
+
 
 module.exports = thoughtController;
