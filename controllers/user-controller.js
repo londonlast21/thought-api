@@ -2,7 +2,7 @@ const { User } = require('../models');
 
 const userController = {
     // GET all users
-    getAllUser(req, res) {
+    getAllUsers(req, res) {
         User.find({})
             .then(dbUserData => res.json(dbUserData))
             .catch(err => {
@@ -12,7 +12,7 @@ const userController = {
     },
 
     // GET one user by ID
-    getuserById({ params }, res) {
+    getUserById({ params }, res) {
         User.findOne({ _id: params.id })
             .then(dbUserData => {
                 // if no user found send 404
