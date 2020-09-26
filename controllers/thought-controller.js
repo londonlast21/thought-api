@@ -1,4 +1,4 @@
-const { Thought, User } = require('../models');
+const { Thought, Reaction } = require('../models');
 
 const thoughtController = {
 
@@ -40,13 +40,42 @@ const thoughtController = {
 
     },
 
-    // add reaction PUT api/thoughts/thoughtId
+    // add reaction POST api/thoughts/thoughtId/reactions/
     addReaction({ params, body }, res) {
-        Thought.findOneAndUpdate(
-            { _id: params.thoughtId },
-            { $push: { replies: body } },
-            { new: true }
-        )
+        console.log(body);
+        Reaction.create(body)
+            .then(({ _id }) => {
+                return Thought.findOneAndUpdate(
+                    { id_: params.thoughtId },
+                    { $push: { thoughts: _id } },
+                    { new: true }
+                );
+            })
+            .then(dbThoughtData => {
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: 'No thought found with this ID' });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch(err => res.json(err));
+    
+    },
+
+    // remove DELETE reaction api/thoughts/reactions
+    removeReaction({ params }, res) {
+        Reaction.findOneAndDelete(
+            { _id: params.reactionId })
+            .then(deletedReaction => {
+                if (!deletedReaction) {
+                    return res.status(404).json({ message: 'No reaction found with this ID' });
+                }
+                return Thought.findOneAndUpdate(
+                    { _id: params.thoughtId },
+                    { $pull: { reactions: params.reactionId } },
+                    { new: true }
+                );
+            })
             .then(dbThoughtData => {
                 if (!dbThoughtData) {
                     res.status(404).json({ message: 'No thought found with this ID' });
@@ -56,17 +85,7 @@ const thoughtController = {
             })
             .catch(err => res.json(err));
     },
-
-    // remove DELETE reaction api/thoughts/reactionId
-    removeReaction({ params }, res) {
-        Thoughts.findOneAndUpdate(
-            { _id: params.thoughtId },
-            { $pull: { reactions: { reactionId: params.reactionId } } },
-            { new: true }
-        )
-        .then(dbThoughtData => res.json(dbThoughtData))
-        .catch(err => res.json(err));
-    },
+    
 
 
     // remove thought user DELETE api/thoughts/thoughtid

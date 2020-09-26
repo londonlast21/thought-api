@@ -30,7 +30,7 @@ router
 // reaction routes
 router
     .route('/:thoughtId/reactions')
-    .put(addReaction)
+    .post(addReaction)
     .delete(removeReaction);
 
 

@@ -52,11 +52,11 @@ const ThoughtSchema = new Schema(
         get: createdAtVal => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a'),
 
     },
-    thoughtId: {
-        type: Schema.Types.ObjectId,
-        default: () => new Types.ObjectId,
+    // thoughtId: {
+    //     type: Schema.Types.ObjectId,
+    //     default: () => new Types.ObjectId,
 
-    },
+    // },
     reactions: [ReactionSchema]
     },
     {
