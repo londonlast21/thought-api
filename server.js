@@ -10,8 +10,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 //app.use(require('./routes'));
 
-// log mongo queries
-mongoose.set('debug', true);
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/thought-api', {
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
+// Use this to log mongo queries being executed!
+mongoose.set('debug', true);
 // start
 app.listen(PORT, () => console.log(`Now connected on localhost:${PORT}`));
