@@ -9,6 +9,10 @@ const ThoughtSchema = new Schema(
         //,
         // validate 1-280 char
     },
+    username: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now,
@@ -20,9 +24,22 @@ const ThoughtSchema = new Schema(
         default: () => new Types.ObjectId,
 
     },
-    // replies: [ReplySchema]
+   
+    // replies: [
+    //     ReplySchema
+    // ]
+    // },
+    // {
+    //     toJSON: {
+    //         virtuals: true,
+    //     },
+    //     id: false
+    }
     
-});
+);
+
+// friend count
+
 
 const Thought = model('Thought', ThoughtSchema);
 
