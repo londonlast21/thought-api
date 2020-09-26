@@ -1,7 +1,19 @@
 const { Thought, User } = require('../models');
 
 const thoughtController = {
-    // add thought from user
+
+    // GET all thoughts /api/thoughts
+    getAllThoughts(req, res) {
+        Thought.find({})
+            .then(db)
+    }
+
+    // GET thought by Id /api/thoughts/thoughtid
+
+
+
+    
+    // add thought from user POST api/thoughts/userid
     addThought({ params, body }, res) {
         console.log(body);
         Thought.create(body)
@@ -23,8 +35,9 @@ const thoughtController = {
 
     },
 
-    // remove thought
+    // remove thought user DELETE api/thoughts/userid
     removeThought({ params }, res) {
+        console.log('hitremove');
         Thought.findOneAndDelete({ _id: params.thoughtId })
         .then(deletedThought => {
             if (!deletedThought) {
