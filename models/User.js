@@ -17,12 +17,12 @@ const UserSchema = new Schema(
            // validate: 
             
         },
-        thoughts: {
-            // array of _id values ref Thought.js model
-        },
-        friends: {
-            //array of _id values ref User model (self ref)
-        },
+        // thoughts: {
+        //     // array of _id values ref Thought.js model
+        // },
+        // friends: {
+        //     //array of _id values ref User model (self ref)
+        // },
         createdAt: {
             type: Date,
             default: Date.now
