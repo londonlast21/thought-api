@@ -16,10 +16,13 @@ const UserSchema = new Schema(
             unique: true,
            // validate: 
             
-        }
-        // thoughts: {
-        //     // array of _id values ref Thought.js model
-        // },
+        },
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Thought'
+            }
+        ]
         // friends: {
         //     //array of _id values ref User model (self ref)
         // },
