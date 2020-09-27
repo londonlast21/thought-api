@@ -59,7 +59,6 @@ const thoughtController = {
                 res.json(dbThoughtData);
             })
             .catch(err => res.json(err));
-    
     },
 
     // remove DELETE reaction api/thoughts/reactions
