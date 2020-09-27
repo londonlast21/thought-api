@@ -101,27 +101,26 @@ const thoughtController = {
     // remove thought user DELETE api/thoughts/thoughtid
     deleteThought({ params }, res) {
         console.log('hitremove');
+
+        const userId = Thought.userId;
+
         Thought.findOneAndDelete({ _id: params.thoughtId })
-        .then(deletedThought => {
-            if (!deletedThought) {
-                return res.status(404).json({ message: 'No thought with this ID' });
-            }
-            return Thought.findOneAndUpdate(
-                { _id: params.userId },
-                { $pull: { thoughts: params.thoughtId } },
+        .then(({ _id }) => {
+            return User.findOneAndUpdate(
+                { _id: userId },
+                { $pull: { thoughts: _id } },
                 { new: true }
-            );
-        })
-        .then(dbUserData => {
-            if (!dbUserData) {
-                res.status(404).json({ message: 'No thought found with this ID' });
-                return;
-            }
+            )
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No thought found with this ID' });
+                    return;
+                }
             res.json(dbUserData);
         })
         .catch(err => res.json(err));
 
-    },
+    })},
 
     // update thought PUT api/thoughts/thoughtid
     updateThought({ params }, res) {
