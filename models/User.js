@@ -1,18 +1,24 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 const moment = require('moment');
 
 // friends schema
 const FriendSchema = new Schema(
     {
-        userId: {
-            type: String,
-            required: true,
-            trim: true
+        username: {
+            type: String
         },
+        // friendId: {
+        //     type: Schema.Types.ObjectId,
+        //     default: () => new Types.ObjectId()
+        // }
+    },
+      {
+          toJSON: {
+              getters: true
+          }
+      }  
         
-
-        
-    }
+    
 );
 
 
@@ -43,12 +49,7 @@ const UserSchema = new Schema(
                 ref: 'Thought'
             }
         ],
-        friends: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Friend'
-            }
-        ]  
+        friends: [FriendSchema]  
     },
     {
         toJSON: {
