@@ -84,23 +84,44 @@ const userController = {
     },
 
     // DELETE route to delete friend by ID
-    removeFriend({ params }, res){
-         User.findOneAndUpdate(
-                    { _id: params.id },
-                    { $pull: { friends: params.friendId } },
-                    { new: true }
-                )
+    // removeFriend({ params }, res){
+    //      User.findOneAndUpdate(
+    //                 { _id: params.id },
+    //                 { $pull: { friends: params.friendId } },
+    //                 { new: true }
+    //             )
             
+    //         .then(dbUserData => {
+    //             if (!dbUserData) {
+    //                 res.status(404).json({ message: 'No user found with this ID' } );
+    //                 return;
+    //             }
+    //             res.json(dbUserData);
+    //         })
+    //         .catch(err => res.json(err));
+
+    // }
+
+    // DELETE route to delete friend by ID
+        removeFriend({ params }, res){
+            User.findOneAndUpdate(
+                { _id: params.id},
+                { $pull: {friends: { friendId: params.friendId } } },
+                { new: true }
+            )
             .then(dbUserData => {
                 if (!dbUserData) {
-                    res.status(404).json({ message: 'No user found with this ID' } );
+                    res.status(404).json({ message: 'No user found with this ID' });
                     return;
                 }
                 res.json(dbUserData);
             })
             .catch(err => res.json(err));
+        }
 
-    }
+
+
+
 }
 
 module.exports = userController;
