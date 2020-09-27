@@ -99,16 +99,27 @@ const thoughtController = {
 
 
     // remove thought user DELETE api/thoughts/thoughtid
-    deleteThought({ params }, res) {
+    deleteThought({ params, body }, res) {
         console.log('hitremove');
 
-        const userId = Thought.userId;
+       
+        console.log(body);
+
+        const userId = body.userId;
+        console.log(userId);
 
         Thought.findOneAndDelete({ _id: params.thoughtId })
-        .then(({ _id }) => {
-            return User.findOneAndUpdate(
-                { _id: userId },
-                { $pull: { thoughts: _id } },
+        // up to here functionality: it successfully deletes thought 
+        // by ID
+
+    
+        .then(
+            User.findOneAndUpdate(
+                { _id: userId  },
+
+                console.log(userId),
+
+                { $pull: { thoughts: thoughtId } },
                 { new: true }
             )
             .then(dbUserData => {
@@ -118,9 +129,9 @@ const thoughtController = {
                 }
             res.json(dbUserData);
         })
-        .catch(err => res.json(err));
+        .catch(err => res.json(err))
 
-    })},
+    )},
 
     // update thought PUT api/thoughts/thoughtid
     updateThought({ params }, res) {
