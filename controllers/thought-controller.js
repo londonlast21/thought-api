@@ -81,26 +81,19 @@ const thoughtController = {
 
     // remove DELETE reaction api/thoughts/reactions
     removeReaction({ params }, res) {
-        Reaction.findOneAndDelete(
-            { _id: params.reactionId })
-            .then(deletedReaction => {
-                if (!deletedReaction) {
-                    return res.status(404).json({ message: 'No reaction found with this ID' });
-                }
-                return Thought.findOneAndUpdate(
-                    { _id: params.thoughtId },
-                    { $pull: { reactions: params.reactionId } },
-                    { new: true }
-                );
-            })
-            .then(dbThoughtData => {
-                if (!dbThoughtData) {
-                    res.status(404).json({ message: 'No thought found with this ID' });
-                    return;
-                }
-                res.json(dbThoughtData);
-            })
+
+        const reactionId = Thought.reactionId;
+        
+
+
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId },
+            { $pull: { reactions: { reactionId: params.reactionId } } },
+            { new: true }
+        )
+            .then(dbThoughtData => res.json(dbThoughtData))
             .catch(err => res.json(err));
+       
     },
     
 
