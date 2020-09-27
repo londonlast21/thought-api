@@ -5,15 +5,14 @@ const moment = require('moment');
 // friends schema
 const FriendSchema = new Schema(
     {
-        username: {
+        userId: {
             type: String,
             required: true,
             trim: true
         },
+        
 
         
-    
-
     }
 );
 
