@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 const moment = require('moment');
 
-
 // friends schema
 const FriendSchema = new Schema(
     {
@@ -30,8 +29,13 @@ const UserSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-           // validate: 
-            
+            validate: {
+                validator: function(v) {
+                    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+                },
+                message: "Please enter a valid email"
+            },
+            required: [true, "Email required"]
         },
         thoughts: [
             {
