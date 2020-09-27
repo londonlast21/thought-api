@@ -1,6 +1,23 @@
 const { Schema, model } = require('mongoose');
 const moment = require('moment');
 
+
+// friends schema
+const FriendSchema = new Schema(
+    {
+        username: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        
+    
+
+    }
+);
+
+
 // username schema
 const UserSchema = new Schema(
     {
@@ -23,18 +40,29 @@ const UserSchema = new Schema(
                 ref: 'Thought'
             }
         ],
-        friends: {
-            //array of _id values ref User model (self ref)
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Friend'
+            }
+        ]  
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
         },
-        
-       
+        id: false
+    
     }
+    
 );
 
+
 // get total count of friends
-// ThoughtSchema.virtual('thoughtCount').get(function() {
-//     return this.reactions.length;
-// });
+UserSchema.virtual('friendCount').get(function() {
+    return this.friends.length;
+});
 
 
 // User model creation
