@@ -99,19 +99,21 @@ const thoughtController = {
 
 
     // remove thought user DELETE api/thoughts/thoughtid
-    deleteThought({ params }, res) {
-        console.log('hitremove');
+    deleteThought({ params, body }, res) {
+        
+        console.log(params);
+
+
         Thought.findOneAndDelete({ _id: params.thoughtId })
-        .then(deletedThought => {
-            if (!deletedThought) {
-                return res.status(404).json({ message: 'No thought with this ID' });
-            }
-            return Thought.findOneAndUpdate(
-                { _id: params.userId },
-                { $pull: { thoughts: params.thoughtId } },
+        .then(
+            User.findOneAndUpdate(
+                { _id: userId },
+                console.log(_id),
+                { $pull: { thoughts: thoughtId } },
+                console.log(thoughtId),
                 { new: true }
-            );
-        })
+            )
+        )
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'No thought found with this ID' });
