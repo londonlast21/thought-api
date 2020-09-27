@@ -60,6 +60,16 @@ const userController = {
                 res.json(dbUserData);
             })
             .catch(err => res.status(400).json(err));
+    },
+
+    // POST route to add friend by ID
+    addFriend({ params, body }, res) {
+
+    },
+
+    // DELTE route to delete friend by ID
+    removeFriend({ params }, res){
+        
     }
 }
 
