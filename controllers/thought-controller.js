@@ -1,5 +1,5 @@
 const { relativeTimeRounding } = require('moment');
-const { Thought, Reaction } = require('../models');
+const { Thought } = require('../models');
 const User = require('../models/User');
 
 const thoughtController = {
@@ -59,21 +59,16 @@ const thoughtController = {
     },
 
 
-
-
-
     // add reaction POST api/thoughts/thoughtId/reactions/
     addReaction({ params, body }, res) {
         console.log(body);
-        Reaction.create(body)
-            .then(({ _id }) => {
-                return Thought.findOneAndUpdate(
-                    { id_: params.thoughtId },
-                    { $push: { thoughts: _id } },
-                    { new: true }
-                );
-            })
-            .then(dbThoughtData => {
+
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId },
+            { $push: { reactions: body } },
+            { new: true }
+        )
+            .then (dbThoughtData => {
                 if (!dbThoughtData) {
                     res.status(404).json({ message: 'No thought found with this ID' });
                     return;
@@ -81,6 +76,7 @@ const thoughtController = {
                 res.json(dbThoughtData);
             })
             .catch(err => res.json(err));
+      
     },
 
     // remove DELETE reaction api/thoughts/reactions
