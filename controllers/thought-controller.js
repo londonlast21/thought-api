@@ -37,6 +37,9 @@ const thoughtController = {
     // add thought from user POST api/thoughts/
     addThought({ params, body }, res) {
         console.log(body);
+        // define what userId is, to then pass into thought.create
+        const userId = body.userId;
+
         Thought.create(body)
             .then(({ _id }) => {
                 return User.findOneAndUpdate(
