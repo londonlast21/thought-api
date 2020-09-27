@@ -7,15 +7,13 @@ const FriendSchema = new Schema(
         username: {
             type: String
         },
-        // friendId: {
-        //     type: Schema.Types.ObjectId,
-        //     default: () => new Types.ObjectId()
-        // }
+      
     },
       {
           toJSON: {
               getters: true
-          }
+          },
+          id: false
       }  
         
     
