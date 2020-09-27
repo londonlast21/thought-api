@@ -85,17 +85,12 @@ const userController = {
 
     // DELETE route to delete friend by ID
     removeFriend({ params }, res){
-        Friend.findOneAndDelete({ _id: params.friendId })
-            .then(deletedFriend => {
-                if (!deletedFriend) {
-                    return res.status(404).json({ message: 'No friend with this ID' });
-                }
-                return User.findOneAndUpdate(
-                    { _id: params.userId },
+         User.findOneAndUpdate(
+                    { _id: params.id },
                     { $pull: { friends: params.friendId } },
                     { new: true }
-                );
-            })
+                )
+            
             .then(dbUserData => {
                 if (!dbUserData) {
                     res.status(404).json({ message: 'No user found with this ID' } );
