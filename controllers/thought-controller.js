@@ -1,4 +1,6 @@
+const { relativeTimeRounding } = require('moment');
 const { Thought, Reaction } = require('../models');
+const User = require('../models/User');
 
 const thoughtController = {
 
@@ -30,15 +32,32 @@ const thoughtController = {
           
     },
 
+
     
     // add thought from user POST api/thoughts/
     addThought({ params, body }, res) {
         console.log(body);
         Thought.create(body)
-            .then(dbThoughtData => res.json(dbThoughtData))
-            .catch(err => res.status(400).json(err));
-
+            .then(({ _id }) => {
+                return User.findOneAndUpdate(
+                    { _id: userId },
+                    { $push: { thoughts: _id } },
+                    { new: true }
+                );
+                })
+                .then(dbUserData => {
+                    if (!dbUserData) {
+                        res.status(404).json({ message: 'No user found with this ID' });
+                        return;
+                    }
+                    res.json(dbUserData);
+                    })
+                    .catch(err => res.json(err));
     },
+
+
+
+
 
     // add reaction POST api/thoughts/thoughtId/reactions/
     addReaction({ params, body }, res) {

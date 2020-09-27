@@ -3,6 +3,7 @@ const ReactionSchema = require('./Reaction');
 const moment = require('moment');
 
 
+
 const ThoughtSchema = new Schema(
 {
     thoughtText: {
@@ -13,6 +14,10 @@ const ThoughtSchema = new Schema(
         
     },
     username: {
+        type: String,
+        required: true
+    },
+    userId: {
         type: String,
         required: true
     },
