@@ -12,8 +12,7 @@ const FriendSchema = new Schema(
       {
           toJSON: {
               getters: true
-          },
-          id: false
+          }
       }  
         
     
