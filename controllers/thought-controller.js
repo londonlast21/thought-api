@@ -126,10 +126,10 @@ const thoughtController = {
     },
 
     // update thought PUT api/thoughts/thoughtid
-    updateThought({ params }, res) {
-        Thought.findOneAndUpdate({ _id: params.id })
+    updateThought({ params, body }, res) {
+        Thought.findOneAndUpdate({ _id: params.id }, body, {new: true })
             .then(dbThoughtData => {
-                if (!dbThoughtId) {
+                if (!dbThoughtData) {
                     res.status(404).json({ message: 'No thought found with this ID' });
                     return;
                 }
