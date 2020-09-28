@@ -5,4 +5,5 @@ A RESTful API that allows users to make an account, post their 'Thoughts', add r
 
 ## Links:
 [GitHub Repo](https://github.com/londonlast21/thought-api)
-[Video Demo]
+[Video Demo part 1](https://drive.google.com/file/d/1Xc7ZWSPqA3z0Eknf5CaUZcB1TcdjKYna/view)
+[Video Demo part 2](https://drive.google.com/file/d/1gLZYkrSeBTBm49eacgkH4q88QNOTsv1t/view)
